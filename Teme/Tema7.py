@@ -5,7 +5,7 @@ acum la ore.
 Curs git/github https://bit.ly/3yfFvqL
 VIDEOS 1, 2 si 3'''
 
-# Link Git: https://github.com/VladLazar17/Theory-Exercises
+# Link Git: https://github.com/VladLazar17/Automation-Tester-Course
 
 '''2. Rezolvă exercițiul după ce ai urcat proiectul (tot ce am facut până acum
 împreună).
