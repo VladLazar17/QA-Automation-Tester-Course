@@ -8,7 +8,7 @@ class TestSuite(unittest.TestCase):
     #aici implementam o suita de teste
     def test_suite(self): #cuvant cheie
         smoketest = unittest.TestSuite()
-        #aici adugam teste noastre in suita
+        #aici adugam testele noastre in suita
         smoketest.addTests([
             unittest.defaultTestLoader.loadTestsFromTestCase(Test)
         ])
