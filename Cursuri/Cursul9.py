@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
+
 class Test(unittest.TestCase):
     base_url = 'https://www.itfactory.ro/ta-29/'
     password_for_29 = '7eD8edeERteMczy'
@@ -22,7 +23,6 @@ class Test(unittest.TestCase):
         # driver.implicity_wait(1)
         # element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "myDynamicElement")))
         password_input = driver.find_element(By.CSS_SELECTOR, "#pwbox-16369")
-
 
         password_input.send_keys(self.password_for_29)
 
@@ -53,8 +53,8 @@ class Test(unittest.TestCase):
 
         curses_list = driver.find_elements(By.CSS_SELECTOR, '.elementor-element-16a244fe h2')
         print('\n')
-        # for curse in curses_list:
-        #     print(str(curse.text))
+        for curse in curses_list:
+            print(str(curse.text))
 
         assert len(curses_list) == 4
         driver.delete_all_cookies()
