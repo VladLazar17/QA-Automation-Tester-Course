@@ -3,6 +3,7 @@ import unittest
 import HtmlTestRunner
 
 from Cursul9 import Test
+from Teme.Tema10 import Login
 
 class TestSuite(unittest.TestCase):
     #aici implementam o suita de teste
@@ -10,7 +11,8 @@ class TestSuite(unittest.TestCase):
         smoketest = unittest.TestSuite()
         #aici adugam testele noastre in suita
         smoketest.addTests([
-            unittest.defaultTestLoader.loadTestsFromTestCase(Test)
+            unittest.defaultTestLoader.loadTestsFromTestCase(Test),
+            unittest.defaultTestLoader.loadTestsFromTestCase(Login)
         ])
 
 

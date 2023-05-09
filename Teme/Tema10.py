@@ -1,10 +1,8 @@
 import unittest
 from time import sleep
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -95,3 +93,65 @@ class Login(unittest.TestCase):
         assert pop_eroare.is_displayed(), 'Eroarea a disparut!'
         # self.assertFalse(pop_eroare.is_displayed(), 'Eroarea a disparut!')
         print('Test 8 PASSED')
+
+    def test_9(self):
+        lista_elemente = self.driver.find_elements(By.XPATH, '//label')
+
+        assert lista_elemente[0].text == 'Username', 'Textul nu este corect!'
+        assert lista_elemente[1].text == 'Password', 'Textul nu este corect!'
+        print('Test 9 PASSED')
+
+    def test_10(self):
+        username = self.driver.find_element(By.CSS_SELECTOR, '#username')
+        username.send_keys('tomsmith')
+
+        password = self.driver.find_element(By.CSS_SELECTOR, '#password')
+        password.send_keys('SuperSecretPassword!')
+
+        buton_login = self.driver.find_element(By.CSS_SELECTOR, '.radius')
+        buton_login.click()
+
+        assert '/secure' in self.driver.current_url, 'URL-ul nu contine /secure!'
+        element = self.driver.find_element(By.CSS_SELECTOR, '.flash.success')
+        WebDriverWait(self.driver, 10).until(EC.visibility_of(element))
+
+        assert element.is_displayed(), 'Elementul nu este afisat!'
+        assert 'secure area!' in element.text, "Nu contine mesajul 'secure area!'"
+        print('Test 10 PASSED')
+
+    def test_11(self):
+        username = self.driver.find_element(By.CSS_SELECTOR, '#username')
+        username.send_keys('tomsmith')
+
+        password = self.driver.find_element(By.CSS_SELECTOR, '#password')
+        password.send_keys('SuperSecretPassword!')
+
+        buton_login = self.driver.find_element(By.CSS_SELECTOR, '.radius')
+        buton_login.click()
+
+        buton_logout = self.driver.find_element(By.CSS_SELECTOR, '.button')
+        buton_logout.click()
+
+        expected_url = 'https://the-internet.herokuapp.com/login'
+        current_url = self.driver.current_url
+        assert current_url == expected_url, 'URL-ul nu este corect!'
+        print('Test 11 PASSED')
+
+    def test_12(self):
+        element = self.driver.find_element(By.CSS_SELECTOR, '.subheader')
+        lista_parole = element.text.split()
+
+        for i in range(0, len(lista_parole)):
+            if self.driver.current_url != 'https://the-internet.herokuapp.com/secure':
+                username = self.driver.find_element(By.CSS_SELECTOR, '#username')
+                username.send_keys('tomsmith')
+                password = self.driver.find_element(By.CSS_SELECTOR, '#password')
+                password.send_keys(lista_parole[i])
+                buton_login = self.driver.find_element(By.CSS_SELECTOR, '.radius')
+                buton_login.click()
+            else:
+                print(f'Parola secreta este [{lista_parole[i - 1]}].')
+                break
+
+        assert self.driver.current_url == 'https://the-internet.herokuapp.com/secure', 'Nu am reusit sa gasesc parola'
+        print('Test 12 PASSED')
