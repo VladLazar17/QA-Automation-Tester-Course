@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select
 
 
 class Login(unittest.TestCase):
@@ -155,3 +156,71 @@ class Login(unittest.TestCase):
 
         assert self.driver.current_url == 'https://the-internet.herokuapp.com/secure', 'Nu am reusit sa gasesc parola'
         print('Test 12 PASSED')
+
+class WebForm(unittest.TestCase):
+    URL = 'https://formy-project.herokuapp.com/form'
+    driver = webdriver.Chrome()
+
+    def setUp(self):
+        self.driver.get(self.URL)
+        self.driver.maximize_window()
+
+    def tearDown(self):
+        self.driver.quit()
+
+    #verificam daca titlul este corect
+    def test_1(self):
+        expected_title = 'Formy'
+        actual_title = self.driver.title
+
+        assert actual_title == expected_title, 'Titlul nu este corect'
+        print('Test 1 - PASSED')
+
+    #verificam daca textul elementului h1 este corect
+    def test_2(self):
+        expected_text = 'Complete Web Form'
+        actual_text = self.driver.find_element(By.XPATH, '//h1').text
+
+        assert expected_text == actual_text, 'Textul nu este corect'
+        print('Test 2 - PASSED')
+
+    #verificam daca dupa completarea formularului, primim mesajul "The form was successfully submitted!"
+    def test_3(self):
+        first_name = self.driver.find_element(By.ID, 'first-name')
+        first_name.send_keys('Ion')
+
+        last_name = self.driver.find_element(By.ID, 'last-name')
+        last_name.send_keys('Popescu')
+
+        job_title = self.driver.find_element(By.CSS_SELECTOR, '#job-title')
+        job_title.send_keys('Engineer')
+
+        education = self.driver.find_element(By.ID, 'radio-button-3')
+        education.click()
+
+        sex = self.driver.find_element(By.ID, 'checkbox-1')
+        sex.click()
+
+        years_of_experience = Select(self.driver.find_element(By.CSS_SELECTOR, '#select-menu'))
+        years_of_experience.select_by_visible_text('5-9')
+
+        date = self.driver.find_element(By.ID, 'datepicker')
+        date.click()
+
+        today_date = self.driver.find_elements(By.CSS_SELECTOR, '.table-condensed tr td')
+        for i in today_date:
+            if i.text == '24':
+                i.click()
+                break
+
+        submit_button = self.driver.find_element(By.CSS_SELECTOR, '.btn.btn-lg.btn-primary')
+        submit_button.click()
+        sleep(2)
+
+        expected_message = 'The form was successfully submitted!'
+        received_message = self.driver.find_element(By.CSS_SELECTOR, '.alert.alert-success').text
+
+        assert received_message == expected_message, 'Mesajul nu este corect!'
+        print('Test 3 - PASSED')
+
+

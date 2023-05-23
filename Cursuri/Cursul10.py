@@ -3,7 +3,7 @@ import unittest
 import HtmlTestRunner
 
 from Cursul9 import Test
-from Teme.Tema10 import Login
+from Teme.Tema10.Tema10_1 import Login
 
 class TestSuite(unittest.TestCase):
     #aici implementam o suita de teste
